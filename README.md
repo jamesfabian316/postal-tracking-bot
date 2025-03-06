@@ -15,7 +15,7 @@ A Telegram bot for tracking India Post packages. This bot allows users to track 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/postal-tracking-bot.git
+git clone https://github.com/jamesfabian316/postal-tracking-bot.git
 cd postal-tracking-bot
 ```
 
