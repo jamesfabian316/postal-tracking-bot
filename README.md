@@ -23,7 +23,9 @@ cd postal-tracking-bot
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+```bash
+venv\Scripts\activate
 ```
 
 3. Install dependencies:
@@ -43,6 +45,13 @@ TELEGRAM_BOT_TOKEN=your_bot_token_here
 ```bash
 python user_bot.py
 ```
+6. Run the app:
+
+```bash
+python app.py
+```
+
+Go to localhost:5000
 
 ## Usage
 
