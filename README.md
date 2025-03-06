@@ -16,7 +16,6 @@ A Telegram bot for tracking India Post packages. This bot allows users to track 
 
 ```bash
 git clone https://github.com/jamesfabian316/postal-tracking-bot.git
-cd postal-tracking-bot
 ```
 
 2. Create and activate a virtual environment:
@@ -51,7 +50,7 @@ python user_bot.py
 python app.py
 ```
 
-Go to localhost:5000
+Go to [The Admin Dashboard](localhost:5000)
 
 ## Usage
 
