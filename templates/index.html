@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track your India Post packages in real-time with our tracking system">
+  <title>India Post Tracking System</title>
+
+  <!-- Preload critical assets -->
+  <link rel="preload" href="{{ url_for('static', filename='css/styles.css') }}" as="style">
+  <link rel="preload" href="{{ url_for('static', filename='js/main.js') }}" as="script">
+
+  <!-- Stylesheets -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/indiapost.png') }}">
+</head>
+
+<body class="min-h-screen">
+  <!-- Header -->
+  <header class="header-bg text-white py-4 mb-8">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center">
+        <div class="logo-container" role="img">
+          <img src="{{ url_for('static', filename='images/indiapost.png') }}" alt="India Post Logo" width="40"
+            height="40" loading="eager"
+            onerror="this.style.display='none'; this.parentElement.querySelector('.fallback-icon').style.display='block';">
+          <span class="fallback-icon" style="display: none;" aria-hidden="true">📬</span>
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold">India Post Tracking System</h1>
+          <p class="text-sm opacity-90">Track your packages in real-time</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 pt-2 pb-8">
+    <!-- Status Update Form -->
+    <section class="card p-6 mb-8" aria-labelledby="update-status-title">
+      <h2 id="update-status-title" class="text-xl font-semibold mb-4 text-gray-800">Update Status</h2>
+      <form id="updateForm" class="space-y-4" novalidate>
+        <div>
+          <label for="trackingNumber" class="block text-sm font-medium text-gray-700 mb-1">Tracking Number</label>
+          <select id="trackingNumber" name="trackingNumber" class="form-input" required>
+            <option value="">Select a tracking number</option>
+          </select>
+        </div>
+        <div>
+          <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+          <select id="status" name="status" class="form-input" required>
+            <option value="">Select a status</option>
+            {% for status in status_options %}
+            <option value="{{ status }}">{{ status }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label for="statusDetails" class="block text-sm font-medium text-gray-700 mb-1">Details</label>
+          <input type="text" id="statusDetails" name="statusDetails" class="form-input"
+            placeholder="Enter status details" aria-describedby="statusDetailsHelp">
+          <p id="statusDetailsHelp" class="mt-1 text-sm text-gray-500">Enter specific details about the package status
+          </p>
+        </div>
+        <div class="flex space-x-4">
+          <button type="submit" class="btn-primary">
+            <span>Update Status</span>
+          </button>
+          <button type="button" onclick="refreshData()" class="btn-primary bg-gray-600 hover:bg-gray-700">
+            <span>Refresh List</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Tracking List -->
+    <section class="card p-6" aria-labelledby="tracking-list-title">
+      <h2 id="tracking-list-title" class="text-xl font-semibold mb-4 text-gray-800">Tracking List</h2>
+      <div class="table-container" role="region" aria-label="Tracking information">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Tracking Number</th>
+              <th scope="col">Status</th>
+              <th scope="col">Details</th>
+              <th scope="col">Last Updated</th>
+            </tr>
+          </thead>
+          <tbody id="trackingList">
+            <!-- Data will be populated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Hidden element for status options -->
+  <script id="status-options" type="application/json">
+    {{ status_options|tojson }}
+  </script>
+
+  <!-- External JavaScript -->
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</body>
+
+</html>
