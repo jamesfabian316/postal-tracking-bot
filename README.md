@@ -57,6 +57,9 @@ Go to [The Admin Dashboard](http://localhost:5000/)
 
 ## Usage
 
+Go to the Telegram App and search for
+#postal_tracker_bot
+
 The bot supports the following commands:
 
 - `/track <tracking_number>` - Start tracking a new package
