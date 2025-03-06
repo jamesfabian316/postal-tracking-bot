@@ -50,7 +50,7 @@ python user_bot.py
 python app.py
 ```
 
-Go to [The Admin Dashboard](localhost:5000)
+Go to [The Admin Dashboard](http://localhost:5000/)
 
 ## Usage
 
