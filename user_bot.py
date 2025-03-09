@@ -100,7 +100,7 @@ class DatabaseManager:
                         status TEXT,
                         status_details TEXT,
                         last_updated INTEGER,
-                        created_at INTEGER DEFAULT (unixepoch())
+                        created_at INTEGER DEFAULT (strftime('%s', 'now'))
                     )
                 """)
                 # Create index for faster queries
@@ -120,6 +120,7 @@ class DatabaseManager:
     def add_tracking(self, tracking_info: TrackingInfo) -> bool:
         try:
             with sqlite3.connect(self.db_path) as conn:
+                conn.row_factory = sqlite3.Row
                 # Check if tracking number already exists
                 existing = conn.execute(
                     "SELECT status FROM tracking WHERE tracking_number = ?",
@@ -130,13 +131,13 @@ class DatabaseManager:
                     logger.info(f"Tracking number {tracking_info.tracking_number} already exists")
                     return False
                 
+                # Use strftime for timestamp
                 conn.execute("""
                     INSERT INTO tracking 
                     (tracking_number, chat_id, status, status_details, last_updated) 
-                    VALUES (?, ?, ?, ?, ?)
+                    VALUES (?, ?, ?, ?, strftime('%s', 'now'))
                 """, (tracking_info.tracking_number, tracking_info.chat_id,
-                     tracking_info.status, tracking_info.status_details,
-                     tracking_info.last_updated))
+                     tracking_info.status, tracking_info.status_details))
                 return True
         except sqlite3.Error as e:
             logger.error(f"Database error while adding tracking: {str(e)}")
@@ -173,7 +174,7 @@ class DatabaseManager:
             with sqlite3.connect(self.db_path) as conn:
                 cursor = conn.execute("""
                     DELETE FROM tracking 
-                    WHERE last_updated < unixepoch('now', '-' || ? || ' days')
+                    WHERE last_updated < strftime('%s', 'now', '-' || ? || ' days')
                 """, (days,))
                 deleted_count = cursor.rowcount
                 conn.commit()
@@ -300,7 +301,7 @@ Time: {last_updated_str}
             chat_id=chat_id,
             status="Order Placed",
             status_details="Your order has been placed and is being processed.",
-            last_updated=int(time.time())
+            last_updated=0  # This will be set by SQLite
         )
 
         if self.db.add_tracking(tracking_info):
